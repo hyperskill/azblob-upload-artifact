@@ -1,0 +1,26 @@
+name: 'Azure blob upload artifacts'
+description: 'Compress and Azure blob upload artifacts'
+
+inputs:
+  connection_string:
+    description: 'Azure atorage connection string'
+    required: true
+  name:
+    description: 'Artifact name'
+    required: true
+  path:
+    description: 'Artifact path'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: tar -czvf ${{ inputs.name }}.tar.gz ${{ inputs.path }}
+      shell: bash
+    - uses: fixpoint/azblob-upload-artifact@v4
+      with:
+        connection-string: ${{ inputs.connection_string }}
+        name: ${{ inputs.name }}-${{ github.sha }}-${{ github.run_id }}
+        path: ${{ inputs.name }}.tar.gz
+    - run: rm ${{ inputs.name }}.tar.gz
+      shell: bash
