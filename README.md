@@ -2,7 +2,7 @@
 Hyperskill GitHub Action | Azure Blob upload artifacts
 
 ```yaml
-- uses: hyperskill/azblob-upload-artifact@v1
+- uses: hyperskill/azblob-upload-artifact@v1.0.0
   with:
     connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
     name: frontend-dist
